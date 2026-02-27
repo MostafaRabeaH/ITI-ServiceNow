@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null"> 
+
+  <j:new className="java.text.SimpleDateFormat" var="formatter">
+    <j:arg value="yyyy-MM-dd"/>
+  </j:new>
+  <j:new className="java.text.SimpleDateFormat" var="yearFormat">
+    <j:arg value="yyyy"/>
+  </j:new>
+  <j:new className="java.text.SimpleDateFormat" var="monthFormat">
+    <j:arg value="MM"/>
+  </j:new>
+  <j:new className="java.text.SimpleDateFormat" var="dayFormat">
+    <j:arg value="dd"/>
+  </j:new>
+
+  <j:invoke on="${formatter}" method="parse" var="myDate">
+    <j:arg value="2001-12-29" />
+  </j:invoke>
+
+  <j:invoke on="${yearFormat}" method="format" var="yearShow">
+    <j:arg value="${myDate}" />
+  </j:invoke>
+
+  <j:invoke on="${monthFormat}" method="format" var="monthShow">
+    <j:arg value="${myDate}" />
+  </j:invoke>
+
+  <j:invoke on="${dayFormat}" method="format" var="dayShow">
+    <j:arg value="${myDate}" />
+  </j:invoke>
+
+
+<br>Year: ${yearShow} | Month: ${monthShow} | Day: ${dayShow}</br>
+</j:jelly>
