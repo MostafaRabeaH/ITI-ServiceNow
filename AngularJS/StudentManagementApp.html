@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html ng-app="module1">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body>
+
+  <div ng-controller="ctrl1">
+    <div class="row mb-4">
+    
+    <div class="col-md-6">
+        <label class="form-label fw-bold">Enter Name:</label>
+        <input type="text" class="form-control" ng-model="searchText" placeholder="Enter Name here">
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label fw-bold">Sort By:</label>
+        <select class="form-select" ng-model="sortColumn">
+            <option value="id">ID</option>
+            <option value="name">Name</option>
+            <option value="-marks">Marks (Highest to Lowest)</option>
+            <option value="marks">Marks (Lowest to Highest)</option>
+        </select>
+    </div>
+    
+</div>
+<ul class="list-group shadow-sm">
+    
+    <li class="list-group-item list-group-item-dark fw-bold">
+        <div class="row w-100">
+            <div class="col-2">ID</div>
+            <div class="col-7"> Name</div>
+            <div class="col-3 text-end">Mark</div>
+        </div>
+    </li>
+
+    <li class="list-group-item" 
+        ng-repeat="student in students | filter:{name: searchText} | orderBy:sortColumn as filteredStudents track by student.id">
+        
+        <div class="row w-100 align-items-center">
+            
+            <div class="col-2 text-muted">#{{ student.id }}</div>
+            
+            <div class="col-7 fs-5">{{ student.name | capitalize }}</div>
+            
+            <div class="col-3 text-end fs-5"
+                 ng-class="{
+                     'text-success fw-bold': student.marks > 80,
+                     'text-danger fw-bold': student.marks <= 80
+                 }">
+                {{ student.marks }}
+            </div>
+            
+        </div>
+    </li>
+    
+</ul>
+
+  </div>
+<script>
+    (function() {
+        var mod = angular.module('module1', []);
+        
+        mod.controller('ctrl1', function($scope) {
+            
+            $scope.students = [
+                { id :1 ,name: 'Mostafa', marks: 85 },
+                { id :2 ,name: 'Ahmed', marks: 75 },
+                { id :3 ,name: 'Sara', marks: 92 },
+                { id :4 ,name: 'Khaled', marks: 65 },
+                { id :5 ,name: 'Ali', marks: 88 },
+                { id :6 ,name: 'Mahmoud', marks: 90 },
+            ];
+
+            $scope.searchText = ''; 
+            $scope.sortColumn = '-marks';
+            
+        });
+            mod.filter ('capitalize', function(){
+            return function(input){
+                if(input){
+                    return input.charAt(0).toUpperCase() + input.slice(1);
+                }
+            }
+        })
+    })();
+</script>
+</body>
+</html>
