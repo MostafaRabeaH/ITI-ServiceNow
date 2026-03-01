@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="FirstModule">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+
+<body>
+    <div ng-controller = "ctrl1" >
+        <input type "text" ng-model ="Name">
+       
+        <h2>{{Name | capitalize}}</h2>
+    </div>
+
+ <script>
+    (function(){
+
+    var mod = angular.module('FirstModule', []);
+      
+
+        mod.controller("ctrl1", function($scope){
+            $scope.Name = "test";
+        });
+        mod.filter ('capitalize', function(){
+            return function(input){
+                if(input){
+                    return input.charAt(0).toUpperCase() + input.slice(1);
+                }
+            }
+        })
+    })()
+
+
+
+</script>
+</body>
+
+</html>
