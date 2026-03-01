@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app="Module1">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div  ng-controller="Ctrl1" class="container mt-5">
+    <div class="row">
+        
+        <div class="col-md-3 mb-4" ng-repeat="item in products">
+            
+            <product-card 
+                title="{{item.name}}" 
+                price="{{item.price}}" 
+                image="{{item.img}}">
+            </product-card>
+            
+        </div>
+
+    </div>
+</div>
+ 
+ <script>
+
+(function(){
+
+  var mod = angular.module('Module1', []);
+
+        mod.controller ("Ctrl1",function($scope){
+            $scope.products = [
+        { name: " Headphones", price: "$199", img: "https://picsum.photos/id/26/300/200" },
+        { name: " Watch", price: "$249", img: "https://picsum.photos/id/1/300/200" },
+        { name: " Speaker", price: "$89", img: "https://picsum.photos/id/2/300/200" },
+        { name: " Mouse", price: "$59", img: "https://picsum.photos/id/3/300/200" }
+    ];
+        })
+
+
+mod.directive("productCard", function() {
+    return {
+        scope: {
+            title: '@', 
+            price: '@', 
+            image: '@' 
+        },
+        template: `
+            <div class="card shadow-sm" style="width: 18rem; margin: 10px;">
+                <img ng-src="{{image}}" class="card-img-top"">
+                <div class="card-body">
+                    <h5 class="card-title">{{title}}</h5>
+                    <div class="mb-2">
+                        <span class="fs-4 fw-bold text-dark">{{price}}</span>
+                    </div>
+                    <p class="card-text text-muted small">Testing product directive in AngularJS.</p>
+                    <button class="btn btn-primary w-100">Buy Now</button>
+                </div>
+            </div>
+        `
+    };
+});
+
+    })();
+</script>
+</body>
+
+</html>
