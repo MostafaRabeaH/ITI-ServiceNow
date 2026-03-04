@@ -1,0 +1,119 @@
+<div class="container" style="max-width: 1000px;">
+    
+    <div class="card shadow-sm p-4 mb-4">
+        <h4 class="mb-3">{{ isEditing ? 'Edit Student' : 'Add New Student' }}</h4>
+        
+        <form name="studentForm" novalidate>
+            <div class="row g-2 align-items-center">
+                
+                <div class="col-md-3">
+                    <input type="text" name="name" class="form-control" ng-model="newStudent.name" required placeholder="Name">
+                </div>
+
+                <div class="col-md-2">
+                    <input type="number" name="age" class="form-control" ng-model="newStudent.age" required placeholder="Age">
+                </div>
+
+                <div class="col-md-3">
+                    <input type="email" name="email" class="form-control" ng-model="newStudent.email" required placeholder="Email">
+                </div>
+
+                <div class="col-md-2">
+                    <input type="number" name="mark" class="form-control" ng-model="newStudent.mark" required placeholder="Mark" step="0.01">
+                </div>
+
+                <div class="col-md-2 d-flex gap-1">
+                    <button class="btn w-100 fw-bold" 
+                            ng-class="isEditing ? 'btn-warning' : 'btn-dark'"
+                            ng-click="saveStudent()" 
+                            ng-disabled="studentForm.$invalid">
+                        <span>{{ isEditing ? 'Update' : 'Add' }}</span>
+                    </button>
+                    
+                    <button type="button" class="btn btn-outline-secondary fw-bold" 
+                            ng-show="isEditing" 
+                            ng-click="cancelEdit()">
+                        X
+                    </button>
+                </div>
+                
+            </div>
+            
+            <div class="text-danger mt-2 small" ng-show="studentForm.email.$dirty && studentForm.email.$invalid">
+                 enter a valid email
+            </div>
+        </form>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <label class="form-label fw-bold">Enter Name:</label>
+            <input type="text" class="form-control" ng-model="searchText" placeholder="Enter Name here">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label fw-bold">Sort By:</label>
+            <select class="form-select" ng-model="sortColumn">
+                <option value="studentid">ID</option>
+                <option value="name">Name</option>
+                <option value="age">Age</option>
+                <option value="-mark">Marks (Highest to Lowest)</option>
+                <option value="mark">Marks (Lowest to Highest)</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="text-center my-5" ng-show="isLoading">
+        <div class="spinner-border text-dark" role="status"></div>
+        <div class="mt-2 fw-bold">Loading data...</div>
+    </div>
+
+    <div class="alert alert-warning text-center fw-bold shadow-sm" ng-show="!isLoading && students.length === 0">
+        {{ fetchMessage }}
+    </div>
+
+    <ul class="list-group shadow-sm" ng-show="!isLoading && students.length > 0">
+        
+        <li class="list-group-item list-group-item-dark fw-bold">
+            <div class="row w-100">
+                <div class="col-1">ID</div>
+                <div class="col-3">Name</div>
+                <div class="col-1">Age</div>
+                <div class="col-4">Email</div>
+                <div class="col-1  ">Mark</div>
+                <div class="col-2 text-center">Action</div>
+            </div>
+        </li>
+
+        <li class="list-group-item" 
+            ng-repeat="student in students | filter:{name: searchText} | orderBy:sortColumn track by $index">
+            
+            <div class="row w-100 align-items-center">
+                <div class="col-1 text-muted">#{{ student.studentid }}</div>
+                <div class="col-3 fs-6 fw-bold">{{ student.name }}</div>
+                <div class="col-1 text-muted">{{ student.age }}</div>
+                <div class="col-4 text-muted text-break">{{ student.email }}</div>
+                <div class="col-1   fs-5"
+                     ng-class="{
+                         'text-success fw-bold': student.mark > 80,
+                         'text-danger fw-bold': student.mark <= 80
+                     }">
+                    {{ student.mark }}
+                </div>
+                
+                <div class="col-2 text-center d-flex justify-content-center gap-2">
+                    <a href="#!/userDetails/{{student.studentid}}" class="btn btn-info btn-sm text-white fw-bold shadow-sm">
+                        Details
+                    </a>
+                    <button class="btn btn-warning btn-sm fw-bold shadow-sm" ng-click="editStudent(student)">
+                        Edit
+                    </button>
+                    <button class="btn btn-danger btn-sm fw-bold shadow-sm" ng-click="deleteStudent(student.studentid)">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </li>
+        
+    </ul>
+
+</div>

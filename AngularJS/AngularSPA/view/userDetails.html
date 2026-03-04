@@ -1,0 +1,54 @@
+<div class="container" style="max-width: 600px; margin-top: 50px;">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white text-center py-4 rounded-top-4">
+            <h3 class="mb-0 fw-bold">User Details</h3>
+        </div>
+        <div class="card-body p-5">
+            
+            <div class="text-center my-5" ng-show="isLoading">
+                <div class="spinner-border text-primary" role="status"></div>
+                <div class="mt-2 fw-bold text-muted">Loading </div>
+            </div>
+
+            <div class="alert alert-danger text-center fw-bold shadow-sm" ng-show="!isLoading && errorMessage">
+                {{ errorMessage }}
+            </div>
+
+            <div ng-show="!isLoading && user">
+                <div class="row mb-3 border-bottom pb-2">
+                    <div class="col-sm-4 text-muted fw-bold">ID</div>
+                    <div class="col-sm-8 fs-5 text-dark">#{{ user.studentid }}</div>
+                </div>
+                
+                <div class="row mb-3 border-bottom pb-2">
+                    <div class="col-sm-4 text-muted fw-bold">Name</div>
+                    <div class="col-sm-8 fs-5 fw-bold text-dark">{{ user.name }}</div>
+                </div>
+                
+                <div class="row mb-3 border-bottom pb-2">
+                    <div class="col-sm-4 text-muted fw-bold">Age</div>
+                    <div class="col-sm-8 fs-5 text-dark">{{ user.age }}</div>
+                </div>
+                
+                <div class="row mb-3 border-bottom pb-2">
+                    <div class="col-sm-4 text-muted fw-bold">Email</div>
+                    <div class="col-sm-8 fs-5 text-dark">{{ user.email }}</div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-sm-4 text-muted fw-bold">Mark</div>
+                    <div class="col-sm-8 fs-4 fw-bold" 
+                         ng-class="user.mark > 80 ? 'text-success' : 'text-danger'">
+                        {{ user.mark }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-footer bg-light text-center py-4 rounded-bottom-4">
+            <button class="btn btn-outline-primary btn-lg px-5 fw-bold shadow-sm rounded-pill" ng-click="goBack()">
+                <i class="bi bi-arrow-left"></i> home
+            </button>
+        </div>
+    </div>
+</div>
